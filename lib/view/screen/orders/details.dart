@@ -2,7 +2,7 @@ import 'package:delivery_app/controller/order/details.dart';
 import 'package:delivery_app/core/constants/colors.dart';
 import 'package:delivery_app/core/constants/routes_name.dart';
 import 'package:delivery_app/core/constants/spaces.dart';
-import 'package:delivery_app/data/model/cart.dart';
+import 'package:delivery_app/data/model/order_details.dart';
 import 'package:delivery_app/view/widgets/handeling_data_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -54,18 +54,18 @@ class OrdersDetailsScreen extends StatelessWidget {
                                   color: AppColors.primaryColor))
                         ]),
                         ...List.generate(controller.data.length, (index) {
-                          CartModel cart = controller.data[index];
+                          OrderDetails orderDetails = controller.data[index];
                           return TableRow(children: [
                             Text(
-                              "${cart.itemsName}",
+                              "${orderDetails.orderId}",
                               textAlign: TextAlign.center,
                             ),
                             Text(
-                              "${cart.cartItemCount}",
+                              "${orderDetails.cartItemCount}",
                               textAlign: TextAlign.center,
                             ),
                             Text(
-                              "${cart.itemsPrice}",
+                              "${orderDetails.itemsPrice}",
                               textAlign: TextAlign.center,
                             ),
                           ]);
@@ -81,7 +81,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.symmetric(horizontal: 20),
                         child: Text(
-                          "Total: ${controller.order.orderPrice}\$",
+                          "Total: ${controller.orderDetails?.orderPrice}\$",
                           textAlign: TextAlign.center,
                           style: const TextStyle(color: AppColors.primaryColor),
                         ),
@@ -89,7 +89,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                     ),
                   ),
                   AppSpacing.addHeigh(h10),
-                  if (controller.order.orderType == 0)
+                  if (controller.orderDetails?.orderType == 0)
                     Card(
                       color: AppColors.whiteTextColor,
                       child: ListTile(
@@ -100,12 +100,12 @@ class OrdersDetailsScreen extends StatelessWidget {
                                 fontWeight: FontWeight.bold),
                           ),
                           subtitle: Text(
-                            "${controller.order.addressStreet}, ${controller.order.addressCity}",
+                            "${controller.orderDetails?.addressStreet}, ${controller.orderDetails?.addressCity}",
                             style: const TextStyle(color: AppColors.greyColor),
                           )),
                     ),
                   AppSpacing.addHeigh(h10),
-                  if (controller.order.orderType == 0)
+                  if (controller.orderDetails?.orderType == 0)
                     SizedBox(
                       height: 300,
                       width: double.infinity,
@@ -116,11 +116,12 @@ class OrdersDetailsScreen extends StatelessWidget {
                               mapController: controller.mapController,
                               options: MapOptions(
                                 onMapReady: () => controller.setMarker(LatLng(
-                                    controller.order.addressLat ?? 0.0,
-                                    controller.order.addressLong ?? 0.0)),
+                                    controller.orderDetails?.addressLat ?? 0.0,
+                                    controller.orderDetails?.addressLong ??
+                                        0.0)),
                                 initialCenter: LatLng(
-                                  controller.order.addressLat ?? 0.0,
-                                  controller.order.addressLong ?? 0.0,
+                                  controller.orderDetails?.addressLat ?? 0.0,
+                                  controller.orderDetails?.addressLong ?? 0.0,
                                 ),
                                 initialZoom: controller.zoom,
                                 minZoom: controller.zoom,
@@ -171,7 +172,7 @@ class OrdersDetailsScreen extends StatelessWidget {
                   TextButton(
                       onPressed: () {
                         Get.toNamed(AppRoutes.trackOrder,
-                            arguments: {'order': controller.order});
+                            arguments: {'order': controller.orderDetails});
                       },
                       child: const Text("Track Order"))
                 ],

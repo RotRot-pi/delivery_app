@@ -22,7 +22,7 @@ class PendingOrdersScreen extends StatelessWidget {
                 child: ListView.builder(
                     itemCount: controller.data.length,
                     itemBuilder: (context, index) {
-                      Order order = controller.data[index];
+                      Orders order = controller.data[index];
                       return OrderCard(
                         order: order,
                         controller: controller,

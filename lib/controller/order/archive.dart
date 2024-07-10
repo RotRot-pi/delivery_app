@@ -27,7 +27,7 @@ class ArchivingOrderController extends GetxController {
       print("response:$response ");
 
       for (var i = 0; i < response['data'].length; i++) {
-        data.add(Order.fromJson(response['data'][i]));
+        data.add(Orders.fromJson(response['data'][i]));
       }
     } else {
       requestStatus;

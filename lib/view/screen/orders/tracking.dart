@@ -2,6 +2,7 @@ import 'package:delivery_app/controller/order/details.dart';
 import 'package:delivery_app/controller/tracking_controller.dart';
 import 'package:delivery_app/core/constants/colors.dart';
 import 'package:delivery_app/core/constants/spaces.dart';
+import 'package:delivery_app/view/widgets/auth/custombuttonauth.dart';
 import 'package:delivery_app/view/widgets/handeling_data_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,7 +16,7 @@ class OrderTrackingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(OrdersDetailsController());
+    // Get.put(TrackingController());
     TrackingController trackingController = Get.put(TrackingController());
     return Scaffold(
         appBar: AppBar(
@@ -25,27 +26,27 @@ class OrderTrackingScreen extends StatelessWidget {
           ),
         ),
         body: Container(
-          padding: AppSpacing.addEdgeInsetsSymmetric(
-            vertical: p16,
+          padding: AppSpacing.addEdgeInsetsOnly(
+            top: p16,
           ),
-          child: GetBuilder<OrdersDetailsController>(builder: (controller) {
+          child: GetBuilder<TrackingController>(builder: (controller) {
             return HandelingDataView(
               requestStatus: controller.requestStatus,
               child: Column(
                 children: [
                   Expanded(
-                    child: GetBuilder<OrdersDetailsController>(
+                    child: GetBuilder<TrackingController>(
                       builder: (controller) => Stack(
                         children: [
                           FlutterMap(
                             mapController: controller.mapController,
                             options: MapOptions(
                               onMapReady: () => controller.setMarker(LatLng(
-                                  controller.order.addressLat ?? 0.0,
-                                  controller.order.addressLong ?? 0.0)),
+                                  controller.orderDetails.addressLat!,
+                                  controller.orderDetails.addressLong!)),
                               initialCenter: LatLng(
-                                controller.order.addressLat ?? 0.0,
-                                controller.order.addressLong ?? 0.0,
+                                controller.orderDetails.addressLat ?? 0.0,
+                                controller.orderDetails.addressLong ?? 0.0,
                               ),
                               initialZoom: controller.zoom,
                               minZoom: controller.zoom,
@@ -67,6 +68,7 @@ class OrderTrackingScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
+                              PolylineLayer(polylines: controller.polylines),
                             ],
                           ),
                           Positioned(
@@ -92,6 +94,25 @@ class OrderTrackingScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Container(
+                      height: h56,
+                      width: w180,
+                      padding: AppSpacing.addEdgeInsetsSymmetric(
+                        vertical: p8,
+                      ),
+                      child: MaterialButton(
+                        color: AppColors.primaryColor,
+                        onPressed: () {
+                          controller.deliveryDone();
+                        },
+                        child: const Text(
+                          "Done Delivery",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ))
                 ],
               ),
             );

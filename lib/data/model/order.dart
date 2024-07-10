@@ -1,6 +1,7 @@
 import 'package:delivery_app/data/model/address.dart';
+import 'package:delivery_app/data/model/cart.dart';
 
-class Order extends Address {
+class Orders extends Address {
   int? orderId;
   int? orderAddressId;
   int? orderUserId;
@@ -15,7 +16,7 @@ class Order extends Address {
   int? orderRating;
   String? orderNotating;
 
-  Order({
+  Orders({
     this.orderId,
     this.orderAddressId,
     this.orderUserId,
@@ -31,7 +32,7 @@ class Order extends Address {
     this.orderNotating,
   });
 
-  Order.fromJson(Map<String, dynamic> json) {
+  Orders.fromJson(Map<String, dynamic> json) {
     orderId = json['order_id'];
     orderAddressId = json['order_address_id'];
     orderUserId = json['order_user_id'];
@@ -49,16 +50,11 @@ class Order extends Address {
     addressCity = json['address_city'];
     addressName = json['address_name'];
     addressStreet = json['address_street'];
-    if (json['address_lat'] != null) {
-      addressLat = json['address_lat'].toDouble();
-    } else {
-      addressLat = null;
-    }
-    if (json['address_long'] != null) {
-      addressLat = json['address_long'].toDouble();
-    } else {
-      addressLat = null;
-    }
+
+    addressLat = json['address_lat'].toDouble();
+
+    addressLat = json['address_long'].toDouble();
+
     addressUserId = json['address_user_id'];
   }
 

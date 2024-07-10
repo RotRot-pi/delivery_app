@@ -13,7 +13,7 @@ class OrderCard extends StatelessWidget {
     required this.controller,
   });
 
-  final Order order;
+  final Orders order;
   final controller;
   @override
   Widget build(BuildContext context) {
@@ -83,7 +83,7 @@ class OrderCard extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       Get.toNamed(AppRoutes.ordersDetails,
-                          arguments: {'order': order});
+                          arguments: {'orderId': order.orderId});
                     },
                     // color: AppColors.whiteTextColor.withAlpha(150),
                     // textColor: AppColors.black,
